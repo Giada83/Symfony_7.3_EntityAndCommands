@@ -33,7 +33,7 @@ class Author
     #[Assert\Email(
         message: 'The email {{ value }} is not a valid email.',
     )]
-    #[Assert\NotBlank]
+    #[Assert\NotBlank(message: 'Email is required')]
     private ?string $email = null;
 
     public function getId(): ?int
