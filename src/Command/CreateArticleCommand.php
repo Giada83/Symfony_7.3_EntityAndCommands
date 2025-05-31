@@ -10,7 +10,7 @@ use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\ChoiceQuestion;
+// use Symfony\Component\Console\Question\ChoiceQuestion; \\non usato
 
 #[AsCommand(
     name: 'app:create-article',
@@ -29,7 +29,7 @@ class CreateArticleCommand extends Command
     {
         $this
             ->setDescription('Creates a new article')
-            ->setHelp('Demonstration of custom commands created by Symfony Console component.');;
+            ->setHelp('Demonstration of custom commands created by Symfony Console component.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
