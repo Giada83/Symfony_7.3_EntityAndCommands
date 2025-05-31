@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use App\Entity\Author;
+
 use App\Repository\ArticleRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -33,7 +35,7 @@ class Article
     private ?\DateTime $published_at = null; // published_at
 
     //MANY2ONE RELATIONSHIP
-    #[ORM\ManyToOne(inversedBy: 'articles')]
+    #[ORM\ManyToOne(targetEntity: Author::class, inversedBy: 'articles')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Author $author = null;
 
