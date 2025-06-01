@@ -2,14 +2,14 @@
 
 namespace App\Command;
 
-use App\Entity\Author; //importa entità
-use Doctrine\ORM\EntityManagerInterface; //salva valori nel db
-use Symfony\Component\Validator\Validator\ValidatorInterface; //legge validazioni dell'entità
+use App\Entity\Author; //import entity
+use Doctrine\ORM\EntityManagerInterface; //save values on db
+use Symfony\Component\Validator\Validator\ValidatorInterface; //validation
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\Question; // Question Helper di Symfony
+use Symfony\Component\Console\Question\Question; // Symfony Question Helper 
 
 // register the command
 #[AsCommand(
@@ -39,48 +39,60 @@ class CreateAuthorCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        // cattura input dell'utente
+        // receive user input
         $helper = $this->getHelper('question');
 
-        //campo 'name'
-        $questionName = new Question('Insert author name (required) : ');
-        //validazione campo vuoto di default con QuestionHelper
-        $questionName->setValidator(function ($answer) {
+        //anonimous reusable function
+        $notEmptyValidator = function ($answer) {
             if ('' === trim($answer)) {
-                throw new \Exception('Name is required');
+                throw new \Exception('This field is required');
             }
             return $answer;
-        });
-        //numero massimo di tentativi [prova]
-        $questionName->setMaxAttempts(3);
+        };
+
+        //field 'name'
+        $questionName = new Question('Insert author name (required) : ');
+        //default empty field validation with QuestionHelper
+        $questionName->setValidator($notEmptyValidator);
+        // $questionName->setValidator(function ($answer) {
+        //     if ('' === trim($answer)) {
+        //         throw new \Exception('Name is required');
+        //     }
+        //     return $answer;
+        // });
+        $questionName->setMaxAttempts(3); //maximum number of attempts [test]
         $name = $helper->ask($input, $output, $questionName);
 
-        //campo 'email'
+        //field 'email'
         $questionEmail = new Question('Insert email (required) : ');
-        $questionEmail->setValidator(function ($answer) {
-            if ('' === trim($answer)) {
-                throw new \Exception('Email is required');
-            }
-            return $answer;
-        });
+        $questionEmail->setValidator($notEmptyValidator);
         $email = $helper->ask($input, $output, $questionEmail);
 
-        //creazione entità
+        //new author entity
         $author = new Author();
         $author->setName($name);
         $author->setEmail($email);
 
-        $errors = $this->validator->validate($author);
+        //validations
+        // $errors = $this->validator->validate($author);
+        // if (count($errors) > 0) {
+        //     $output->writeln((string) '<error>ATTENTION : ' . $errors . '</error>');
+        //     return Command::FAILURE;
+        // }
+        $errors = $this->validator->validate($article);
         if (count($errors) > 0) {
-            $output->writeln((string) 'ATTENTION : ' . $errors);
+            $output->writeln('<error>ATTENTION:</error>');
+            foreach ($errors as $error) {
+                $output->writeln('<error> - ' . $error->getPropertyPath() . ': ' . $error->getMessage() . '</error>');
+            }
             return Command::FAILURE;
         }
 
-        //salvataggi nel db
+        //save on db
         $this->em->persist($author);
         $this->em->flush();
 
-        //messaggio di successo
+        //success message
         $output->writeln('Saved new author with id ' . $author->getId());
 
         return Command::SUCCESS;

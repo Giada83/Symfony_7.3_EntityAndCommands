@@ -2,7 +2,6 @@
 
 namespace App\Command;
 
-use App\Entity\Author;
 use App\Entity\Article;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -57,6 +56,14 @@ class ShowArticleCommand extends Command
 
         // select article from id
         $questionArticle = new Question('<comment>Insert the number of the article of your interest: </comment>');
+        //validation
+        $questionArticle->setValidator(function ($answer) {
+            if ('' === trim($answer)) {
+                throw new \Exception('You must choose an article!');
+            }
+            return $answer;
+        });
+
         $article_id = $helper->ask($input, $output, $questionArticle);
         $article = $this->em->getRepository(article::class)->find($article_id);
         if (!$article) {

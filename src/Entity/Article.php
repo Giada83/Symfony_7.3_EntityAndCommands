@@ -21,7 +21,8 @@ class Article
     #[ORM\Column(length: 70)]
     #[Assert\NotBlank(message: 'Title is required')]
     #[Assert\Length(
-        min: 30,
+        // min: 30,
+        min: 5, // // Temporary value for testing purposes only
         max: 70,
         minMessage: 'The title must be at least {{ limit }} characters long',
         maxMessage: 'The title cannot be longer than {{ limit }} characters'
@@ -29,6 +30,12 @@ class Article
     private ?string $title = null; // title
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank(message: 'Please, write something')]
+    #[Assert\Length(
+        // min: 200,
+        min: 5, // // Temporary value for testing purposes only
+        minMessage: 'Content must be at least {{ limit }} characters long',
+    )]
     private ?string $content = null; // content
 
     #[ORM\Column]

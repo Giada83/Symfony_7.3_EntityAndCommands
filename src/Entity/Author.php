@@ -11,7 +11,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: AuthorRepository::class)]
-#[UniqueEntity('email')] //unique applicato al campo email
+//Unique Constrait
+#[UniqueEntity('email')]
+#[UniqueEntity(fields: ['name'], message: 'This name is already taken')]
 
 class Author
 {
@@ -22,7 +24,7 @@ class Author
     private ?int $id = null; // id
 
     #[ORM\Column(length: 50)]
-    // validazioni
+    // validations
     #[Assert\NotBlank(message: 'The name of the author cannot be empty')]
     #[Assert\Length(
         min: 2,
@@ -33,7 +35,7 @@ class Author
     private ?string $name = null; //name
 
     #[ORM\Column(length: 255)]
-    //validazioni
+    //validations
     #[Assert\Email(
         message: 'The email {{ value }} is not a valid email.',
     )]
@@ -44,7 +46,7 @@ class Author
     /**
      * @var Collection<int, Article>
      */
-    #[ORM\OneToMany(targetEntity: Article::class, mappedBy: 'author')]
+    #[ORM\OneToMany(targetEntity: Article::class, mappedBy: 'author', orphanRemoval: true)]
     private Collection $articles;
 
     public function __construct()
