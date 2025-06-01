@@ -14,7 +14,7 @@ Per visualizzare le informazioni sul progetto:
 2. Installare le dipendenze: `composer install`  
 3. Impostare il file `.env` o `.env.local` per configurare il database  
    Esempio:  
-   `DATABASE_URL="postgresql://postgres:root@127.0.0.1:5432/symfony?serverVersion=17&charset=utf8"`  
+   `DATABASE_URL="postgresql://username:password@127.0.0.1:5432/nome_db?serverVersion=17&charset=utf8"`  
 4. Creare il db: `php bin/console doctrine:database:create`  
 5. Applicare le migrazioni esistenti: `php bin/console doctrine:migrations:migrate`  
 
