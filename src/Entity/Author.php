@@ -2,11 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\AuthorRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\AuthorRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 #validazioni
+use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -21,6 +22,7 @@ class Author
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['author:fields'])]
     private ?int $id = null; // id
 
     #[ORM\Column(length: 50)]
@@ -32,6 +34,7 @@ class Author
         minMessage: 'The name of the author must be at least {{ limit }} characters long',
         maxMessage: 'The name of the author cannot be longer than {{ limit }} characters',
     )]
+    #[Groups(['author:fields', 'author:write'])]
     private ?string $name = null; //name
 
     #[ORM\Column(length: 255)]
@@ -40,6 +43,7 @@ class Author
         message: 'The email {{ value }} is not a valid email.',
     )]
     #[Assert\NotBlank(message: 'Email is required')]
+    #[Groups(['author:fields', 'author:write'])]
     private ?string $email = null; //email
 
     //ONE2MANY RELATIONSHIP

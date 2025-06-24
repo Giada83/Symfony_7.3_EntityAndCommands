@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AuthorController!
+{% block title %}Authors
 {% endblock %}
 
 {% block body %}
@@ -17,15 +17,16 @@
 		}
 	</style>
 
-	<div class="example-wrapper">
-		<h1>Author List</h1>
-
+	<div
+		class="example-wrapper">
 		{# templates/author/index.html.twig #}
 		<h1>Lista Autori</h1>
 
 		<ul>
 			{% for author in authors %}
-				<li>{{ author.name }}
+				<li>{{ author.id }}
+					.
+					{{ author.name }}
 					({{ author.email }})</li>
 			{% else %}
 				<li>Nessun autore trovato.</li>
