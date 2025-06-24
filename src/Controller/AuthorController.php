@@ -48,6 +48,11 @@ final class AuthorController extends AbstractController
     // #index method via repository (access to methods and functionalities for data management)
     public function index(AuthorRepository $authorRepository): Response
     {
-        dd($authorRepository->findAll());
+        // dd($authorRepository->findAll());
+        $authors = $authorRepository->findAll();
+
+        return $this->render('author/index.html.twig', [
+            'authors' => $authors,
+        ]);
     }
 }
