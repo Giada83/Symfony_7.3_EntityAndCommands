@@ -34,7 +34,7 @@ class Author
         minMessage: 'The name of the author must be at least {{ limit }} characters long',
         maxMessage: 'The name of the author cannot be longer than {{ limit }} characters',
     )]
-    #[Groups(['author:fields', 'author:write'])]
+    #[Groups(['author:fields', 'author:write', 'articles:author'])]
     private ?string $name = null; //name
 
     #[ORM\Column(length: 255)]
@@ -43,7 +43,7 @@ class Author
         message: 'The email {{ value }} is not a valid email.',
     )]
     #[Assert\NotBlank(message: 'Email is required')]
-    #[Groups(['author:fields', 'author:write'])]
+    #[Groups(['author:fields', 'author:write', 'articles:author'])]
     private ?string $email = null; //email
 
     //ONE2MANY RELATIONSHIP

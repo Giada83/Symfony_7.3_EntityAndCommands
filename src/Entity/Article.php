@@ -4,10 +4,13 @@ namespace App\Entity;
 
 use App\Entity\Author;
 
-use App\Repository\ArticleRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ArticleRepository;
+use Symfony\Component\Serializer\Attribute\Groups;
+use Symfony\Component\Serializer\Annotation\Context;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
 class Article
@@ -16,6 +19,7 @@ class Article
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['articles:fields'])]
     private ?int $id = null; // Id
 
     #[ORM\Column(length: 70)]
@@ -27,6 +31,7 @@ class Article
         minMessage: 'The title must be at least {{ limit }} characters long',
         maxMessage: 'The title cannot be longer than {{ limit }} characters'
     )]
+    #[Groups(['articles:fields', 'articles:write'])]
     private ?string $title = null; // title
 
     #[ORM\Column(type: Types::TEXT)]
@@ -36,14 +41,18 @@ class Article
         min: 5, // // Temporary value for testing purposes only
         minMessage: 'Content must be at least {{ limit }} characters long',
     )]
+    #[Groups(['articles:fields', 'articles:write'])]
     private ?string $content = null; // content
 
     #[ORM\Column]
+    #[Groups(['articles:fields'])]
+    #[Context([DateTimeNormalizer::FORMAT_KEY => 'd-m-Y H:i'])] //context - formattazione data
     private ?\DateTime $published_at = null; // published_at
 
     //MANY2ONE RELATIONSHIP
     #[ORM\ManyToOne(targetEntity: Author::class, inversedBy: 'articles')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['articles:author'])]
     private ?Author $author = null;
 
     // GETTER AND SETTER

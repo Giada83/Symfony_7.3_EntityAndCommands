@@ -1,0 +1,18 @@
+meta {
+  name: Articoli_Crea
+  type: http
+  seq: 6
+}
+
+post {
+  url: http://localhost:8000/api/authors/104/articles
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "title": "prova articolo API",
+    "content": "prova articolo API"
+  }
+}
