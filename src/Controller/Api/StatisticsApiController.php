@@ -17,7 +17,7 @@ final class StatisticsApiController extends AbstractController
         private SerializerInterface $serializer,
     ) {}
 
-    #[Route('/top-author', name: 'api_top-author_statistics', methods: ['GET'])]
+    #[Route('/top-author', name: 'top-author', methods: ['GET'])]
     public function getStatistics(): JsonResponse
     {
         $data = [

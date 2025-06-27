@@ -1,40 +1,209 @@
 body {
-    background-color: #a3c4d9;
+    background-color: #f4f6f8;
+    color: #222324;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+        Ubuntu, Cantarell, sans-serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
 }
-.winner-info {
-    margin-top: 2rem;
-    padding: 1.5rem;
-    background-color: rgba(255, 255, 255, 0.9);
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-.winner-text {
-    font-size: 1.2rem;
-    color: #2c3e50;
-}
-h2 {
-    color: #e74c3c;
-    margin-bottom: 1rem;
-    font-size: 1.5rem;
-}
+
 .example-wrapper {
-    text-align: center;
     margin: 2rem auto;
-    padding: 2rem;
+    max-width: 900px;
+    padding: 0 1rem;
 }
-h1 {
-    color: #6593a6;
-    margin-bottom: 1rem;
+
+.winner-info {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
 }
-.loading {
-    color: #6593a6;
-    font-style: italic;
-}
-.author-name {
-    color: #e74c3c;
-    font-weight: bold;
-}
-.article-count {
+
+/* Header della dashboard */
+.winner-info h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0;
+    padding: 2rem 2rem 1rem 2rem;
     color: #2c3e50;
-    font-weight: bold;
+    border-bottom: none;
+}
+
+/* Cards delle statistiche superiori */
+.stats-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 0;
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.stat-card {
+    text-align: center;
+    padding: 1rem 0.5rem;
+    border-right: 1px solid #e2e8f0;
+}
+
+.stat-card:last-child {
+    border-right: none;
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 0.25rem;
+    display: block;
+}
+
+.stat-label {
+    font-size: 0.75rem;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 500;
+}
+
+/* Tabella statistiche */
+.statistics-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0;
+}
+
+.statistics-table th,
+.statistics-table td {
+    padding: 1.25rem 2rem;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
+    font-size: 0.95rem;
+    vertical-align: middle;
+}
+
+.statistics-table th {
+    background-color: #f8fafc;
+    font-weight: 600;
+    color: #374151;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.statistics-table td {
+    color: #1e293b;
+    font-weight: 500;
+}
+
+.statistics-table tr:last-child th,
+.statistics-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* Stati di caricamento */
+.loading {
+    color: #64748b;
+    font-style: italic;
+    position: relative;
+}
+
+.loading::after {
+    content: "";
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-left: 8px;
+    border: 2px solid #e2e8f0;
+    border-top: 2px solid #3b82f6;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Hover effects */
+.statistics-table tbody tr:hover {
+    background-color: #f8fafc;
+    transition: background-color 0.2s ease;
+}
+
+/* Badge per valori speciali */
+.badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.badge-primary {
+    background-color: #dbeafe;
+    color: #1e40af;
+}
+
+.badge-success {
+    background-color: #dcfce7;
+    color: #166534;
+}
+
+.badge-warning {
+    background-color: #fef3c7;
+    color: #92400e;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .example-wrapper {
+        margin: 1rem auto;
+        padding: 0 0.5rem;
+    }
+
+    .winner-info h1 {
+        font-size: 1.25rem;
+        padding: 1.5rem 1rem 0.75rem 1rem;
+    }
+
+    .winner-info::after {
+        padding: 0 1rem 1rem 1rem;
+    }
+
+    .stats-summary {
+        padding: 1rem;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem 0;
+    }
+
+    .stat-card {
+        border-right: none;
+        border-bottom: 1px solid #e2e8f0;
+        padding: 1rem 0;
+    }
+
+    .stat-card:nth-child(2n) {
+        border-right: none;
+    }
+
+    .stat-card:nth-last-child(-n + 2) {
+        border-bottom: none;
+    }
+
+    .statistics-table th,
+    .statistics-table td {
+        padding: 1rem;
+        font-size: 0.875rem;
+    }
+
+    .stat-number {
+        font-size: 1.5rem;
+    }
 }
