@@ -3,8 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Author;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Author>
@@ -16,28 +17,42 @@ class AuthorRepository extends ServiceEntityRepository
         parent::__construct($registry, Author::class);
     }
 
-    //    /**
-    //     * @return Author[] Returns an array of Author objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('a')
-    //            ->andWhere('a.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('a.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function countArticlesByAuthorQueryBuilder(): QueryBuilder
+    {
+        $queryBuilder = $this->createQueryBuilder('a');
 
-    //    public function findOneBySomeField($value): ?Author
-    //    {
-    //        return $this->createQueryBuilder('a')
-    //            ->andWhere('a.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+        $queryBuilder
+            ->select('a AS author, COUNT(art.id) AS article_count')
+            ->leftJoin('a.articles', 'art')
+            ->groupBy('a.id')
+            ->orderBy('article_count', 'DESC')
+        ;
+
+        return $queryBuilder;
+    }
+
+    public function countArticlesByAuthor(int $page, int $limit): array
+    {
+        $queryBuilder = $this->countArticlesByAuthorQueryBuilder();
+
+        $queryBuilder->setMaxResults($limit);
+        $queryBuilder->setFirstResult(($page - 1) * $limit);
+
+        return $queryBuilder->getQuery()->getResult();
+
+        // $paginator = new Paginator($queryBuilder);
+        // return $paginator->getIterator()->getArrayCopy();
+    }
+
+    public function countArticlesForBestAuthor(): ?array
+    {
+        $queryBuilder = $this->countArticlesByAuthorQueryBuilder();
+
+        $queryBuilder->setMaxResults(1);
+
+        return $queryBuilder->getQuery()->getOneOrNullResult();
+    }
+
+    // public function findTopAuthorLastMonth(): ?array
+
 }

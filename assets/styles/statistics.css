@@ -1,0 +1,40 @@
+body {
+    background-color: #a3c4d9;
+}
+.winner-info {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.winner-text {
+    font-size: 1.2rem;
+    color: #2c3e50;
+}
+h2 {
+    color: #e74c3c;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+.example-wrapper {
+    text-align: center;
+    margin: 2rem auto;
+    padding: 2rem;
+}
+h1 {
+    color: #6593a6;
+    margin-bottom: 1rem;
+}
+.loading {
+    color: #6593a6;
+    font-style: italic;
+}
+.author-name {
+    color: #e74c3c;
+    font-weight: bold;
+}
+.article-count {
+    color: #2c3e50;
+    font-weight: bold;
+}
