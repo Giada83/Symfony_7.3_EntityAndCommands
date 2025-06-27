@@ -3,6 +3,12 @@
 {% block title %}Statistiche
 {% endblock %}
 
+{# AGGIUNGI QUESTA SEZIONE PER IL CSS #}
+{% block stylesheets %}
+	{{ parent() }}
+	<link rel="stylesheet" href="{{ asset('styles/statistics.css') }}">
+{% endblock %}
+
 {% block body %}
 	<div class="example-wrapper">
 		<div class="winner-info" data-url="{{ path('api_statistics_top-author') }}">
@@ -47,7 +53,19 @@
 					</tr>
 				</tbody>
 			</table>
-		</div>
-	</div>
 
-{% endblock %}
+			<!-- Sezione per il grafico -->
+			<div class="chart-container" style="position: relative; height:400px; width:100%">
+				<h2>Esperienza di pubblicazione per autore (in giorni)</h2>
+				<canvas id="publishingChart" data-url="{{ path('api_statistics_longest-publishing') }}"></canvas>
+			</div>
+		</div>
+	{% endblock %}
+
+	{% block javascripts %}
+		{{ parent() }}
+		<!-- Carica prima Chart.js -->
+		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+		<!-- Poi il tuo script con defer -->
+		<script src="{{ asset('js/statistics.js') }}" defer></script>
+	{% endblock %}

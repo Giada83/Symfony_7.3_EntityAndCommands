@@ -30,12 +30,38 @@ final class StatisticsApiController extends AbstractController
         );
     }
 
+    // #[Route('/longest-publishing', name: 'longest-publishing', methods: ['GET'])]
+    // public function LongestPublishingAuthors(): JsonResponse
+    // {
+    //     $data = [
+    //         'longest-publishing' => $this->statisticsGenerator->getLongestPublishingAuthors()
+    //     ];
+    //     return new JsonResponse($data);
+    // }
     #[Route('/longest-publishing', name: 'longest-publishing', methods: ['GET'])]
     public function LongestPublishingAuthors(): JsonResponse
     {
-        $data = [
-            'longest-publishing' => $this->statisticsGenerator->getLongestPublishingAuthors()
+        $authorsData = $this->statisticsGenerator->getLongestPublishingAuthors();
+
+        // Prepara i dati per il grafico
+        $chartData = [
+            'labels' => [],
+            'datasets' => [
+                [
+                    'label' => 'Giorni di attività',
+                    'data' => [],
+                    // 'backgroundColor' => 'rgba(54, 162, 235, 0.5)',
+                    // 'borderColor' => 'rgba(54, 162, 235, 1)',
+                    // 'borderWidth' => 1
+                ]
+            ]
         ];
-        return new JsonResponse($data);
+
+        foreach ($authorsData as $author) {
+            $chartData['labels'][] = $author['author_id'] ?? 'Autore sconosciuto';
+            $chartData['datasets'][0]['data'][] = (int)$author['publishing_experience'];
+        }
+
+        return new JsonResponse($chartData);
     }
 }
