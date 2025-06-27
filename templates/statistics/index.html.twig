@@ -3,10 +3,56 @@
 {% block title %}Statistiche
 {% endblock %}
 
-{# AGGIUNGI QUESTA SEZIONE PER IL CSS #}
 {% block stylesheets %}
 	{{ parent() }}
-	<link rel="stylesheet" href="{{ asset('styles/statistics.css') }}">
+	<link
+	rel="stylesheet" href="{{ asset('styles/statistics.css') }}">
+
+	{# CSS INLINE PER DEBUG - rimuovi dopo aver risolto il problema #}
+	<style>
+		.content-grid {
+			display: grid !important;
+			grid-template-columns: 1fr 1fr !important;
+			gap: 2rem !important;
+			padding: 2rem !important;
+		}
+
+		.table-section {
+			background-color: #fafbfc !important;
+			border-radius: 8px !important;
+			padding: 1.5rem !important;
+			border: 1px solid #e2e8f0 !important;
+		}
+
+		.chart-section {
+			background-color: #fafbfc !important;
+			border-radius: 8px !important;
+			padding: 1.5rem !important;
+			border: 1px solid #e2e8f0 !important;
+		}
+
+		.chart-section h3 {
+			font-size: 1rem !important;
+			font-weight: 600 !important;
+			color: #374151 !important;
+			margin: 0 0 1.5rem !important;
+			text-align: center !important;
+		}
+
+		.chart-container {
+			position: relative !important;
+			height: 300px !important;
+			width: 100% !important;
+		}
+
+		@media(max-width: 768px) {
+			.content-grid {
+				grid-template-columns: 1fr !important;
+				gap: 1.5rem !important;
+				padding: 1.5rem 1rem !important;
+			}
+		}
+	</style>
 {% endblock %}
 
 {% block body %}
@@ -34,38 +80,47 @@
 				</div>
 			</div>
 
-			{# Tabella statistiche dettagliate #}
-			<table class="statistics-table">
-				<thead>
-					<tr>
-						<th>Metrica</th>
-						<th>Valore</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>Autore che ha pubblicato di più</td>
-						<td id="top-author" class="loading">Caricamento...</td>
-					</tr>
-					<tr>
-						<td>Totale articoli pubblicati</td>
-						<td id="total-articles-table">--</td>
-					</tr>
-				</tbody>
-			</table>
+			{# Contenitore principale per tabella e grafico #}
+			<div
+				class="content-grid">
+				{# Tabella statistiche dettagliate #}
+				<div class="table-section">
+					<table class="statistics-table">
+						<thead>
+							<tr>
+								<th>Metrica</th>
+								<th>Valore</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Autore che ha pubblicato di più</td>
+								<td id="top-author" class="loading">Caricamento...</td>
+							</tr>
+							<tr>
+								<td>Totale articoli pubblicati</td>
+								<td id="total-articles-table">--</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
 
-			<!-- Sezione per il grafico -->
-			<div class="chart-container" style="position: relative; height:400px; width:100%">
-				<h2>Esperienza di pubblicazione per autore (in giorni)</h2>
-				<canvas id="publishingChart" data-url="{{ path('api_statistics_longest-publishing') }}"></canvas>
+				{# Sezione per il grafico #}
+				<div class="chart-section">
+					<h3>Esperienza di pubblicazione per autore</h3>
+					<div class="chart-container">
+						<canvas id="publishingChart" data-url="{{ path('api_statistics_longest-publishing') }}"></canvas>
+					</div>
+				</div>
 			</div>
 		</div>
-	{% endblock %}
+	</div>
+{% endblock %}
 
-	{% block javascripts %}
-		{{ parent() }}
-		<!-- Carica prima Chart.js -->
-		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-		<!-- Poi il tuo script con defer -->
-		<script src="{{ asset('js/statistics.js') }}" defer></script>
-	{% endblock %}
+{% block javascripts %}
+	{{ parent() }}
+	<!-- Carica prima Chart.js -->
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<!-- Poi il tuo script con defer -->
+	<script src="{{ asset('js/statistics.js') }}" defer></script>
+{% endblock %}

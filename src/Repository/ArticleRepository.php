@@ -38,7 +38,7 @@ class ArticleRepository extends ServiceEntityRepository
                     MIN(art.published_at) AS min_date, 
                     MAX(art.published_at) - MIN(art.published_at) as publishing_experience'
             )
-            //->setMaxResults(5)
+            ->setMaxResults(5)
             ->join('art.author', 'a')
             ->groupBy('author_id')
             ->orderBy('publishing_experience', 'DESC');
