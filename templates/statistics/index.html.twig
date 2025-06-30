@@ -5,10 +5,8 @@
 
 {% block stylesheets %}
 	{{ parent() }}
-	<link
-	rel="stylesheet" href="{{ asset('styles/statistics.css') }}">
+	<link rel="stylesheet" href="{{ asset('styles/statistics.css') }}">
 
-	{# CSS INLINE PER DEBUG - rimuovi dopo aver risolto il problema #}
 	<style>
 		.content-grid {
 			display: grid !important;
@@ -58,7 +56,7 @@
 {% block body %}
 	<div class="example-wrapper">
 		<div class="winner-info" data-url="{{ path('api_statistics_top-author') }}">
-			<h1>Survey Summary Stats</h1>
+			<h1>STATISTICHE</h1>
 
 			{# Sezione statistiche rapide - stile cards superiori #}
 			<div class="stats-summary">
@@ -107,7 +105,7 @@
 
 				{# Sezione per il grafico #}
 				<div class="chart-section">
-					<h3>Esperienza di pubblicazione per autore</h3>
+					<h3>Autori attivi da più tempo</h3>
 					<div class="chart-container">
 						<canvas id="publishingChart" data-url="{{ path('api_statistics_longest-publishing') }}"></canvas>
 					</div>
@@ -119,8 +117,6 @@
 
 {% block javascripts %}
 	{{ parent() }}
-	<!-- Carica prima Chart.js -->
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-	<!-- Poi il tuo script con defer -->
 	<script src="{{ asset('js/statistics.js') }}" defer></script>
 {% endblock %}

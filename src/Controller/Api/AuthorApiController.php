@@ -12,7 +12,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-#[Route('/api/authors', name: 'api_authors_')] #rotta globale
+#[Route('/api/authors', name: 'api_authors_')]
 final class AuthorApiController extends AbstractController
 {
     public function __construct( //autowire | iniziezione automatica dei servizi

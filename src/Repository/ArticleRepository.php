@@ -7,15 +7,21 @@ use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
-/**
- * @extends ServiceEntityRepository<Article>
- */
 class ArticleRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Article::class);
     }
+
+    public function countAllArticles(): int
+    {
+        return (int) $this->createQueryBuilder('art')
+            ->select('COUNT(art.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
 
     public function groupArticlesFromPublishedData(): array
     {
@@ -34,13 +40,14 @@ class ArticleRepository extends ServiceEntityRepository
         $queryBuilder
             ->select(
                 'IDENTITY(art.author) AS author_id, 
+                a.name AS author_name,
                     MAX(art.published_at) AS max_date, 
                     MIN(art.published_at) AS min_date, 
                     MAX(art.published_at) - MIN(art.published_at) as publishing_experience'
             )
             ->setMaxResults(5)
             ->join('art.author', 'a')
-            ->groupBy('author_id')
+            ->groupBy('author_id, author_name')
             ->orderBy('publishing_experience', 'DESC');
 
         return $queryBuilder;

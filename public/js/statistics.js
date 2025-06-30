@@ -1,11 +1,10 @@
 // Attendiamo che il DOM sia completamente caricato prima di eseguire qualsiasi script.
 document.addEventListener("DOMContentLoaded", function () {
     // --- PRIMA FETCH (per le statistiche del Top Author) ---
-    // Questa parte è già corretta e non viene toccata.
     const winnerInfoDiv = document.querySelector(".winner-info");
     if (winnerInfoDiv) {
         const topAuthorElement = document.getElementById("top-author");
-        const apiUrl = winnerInfoDiv.dataset.url;
+        const apiUrl = winnerInfoDiv.dataset.url; //api_statistics_top-author
 
         if (topAuthorElement && apiUrl) {
             fetch(apiUrl)
@@ -40,12 +39,13 @@ document.addEventListener("DOMContentLoaded", function () {
             .then((chartData) => {
                 // 1. Definiamo la palette di colori per le barre
                 const barColors = [
-                    "rgba(59, 130, 246, 0.7)", // Blu
-                    "rgba(239, 68, 68, 0.7)", // Rosso
-                    "rgba(245, 158, 11, 0.7)", // Ambra
-                    "rgba(16, 185, 129, 0.7)", // Verde
-                    "rgba(139, 92, 246, 0.7)", // Viola
-                    "rgba(236, 72, 153, 0.7)", // Rosa
+                    //array
+                    "rgba(59, 130, 246, 0.7)",
+                    "rgba(239, 68, 68, 0.7)",
+                    "rgba(245, 158, 11, 0.7)",
+                    "rgba(16, 185, 129, 0.7)",
+                    "rgba(139, 92, 246, 0.7)",
+                    "rgba(236, 72, 153, 0.7)",
                 ];
 
                 // 2. Assegniamo i colori al nostro dataset
@@ -55,14 +55,14 @@ document.addEventListener("DOMContentLoaded", function () {
                     chartData.datasets[0].borderWidth = 1;
                 }
 
-                // 3. Definiamo il font da usare, prendendolo dal tuo CSS
+                // 3. Definiamo il font da usare
                 const siteFont =
                     "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif";
 
                 const ctx = chartCanvas.getContext("2d");
                 new Chart(ctx, {
-                    type: "bar",
-                    data: chartData,
+                    type: "bar", // Tipo di grafico: barre verticali
+                    data: chartData, // Dati da visualizzare (etichette + dataset)
                     // 4. Applichiamo tutte le opzioni di stile
                     options: {
                         responsive: true,
@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 },
                                 title: {
                                     display: true,
-                                    text: "Giorni di Esperienza",
+                                    text: "Giorni di Pubblicazione",
                                     font: {
                                         size: 13,
                                         family: siteFont,

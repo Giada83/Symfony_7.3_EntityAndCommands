@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Author;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Common\Collections\Order;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
@@ -17,6 +18,15 @@ class AuthorRepository extends ServiceEntityRepository
         parent::__construct($registry, Author::class);
     }
 
+    public function countAllAuthors(): int
+    {
+        return (int) $this->createQueryBuilder('a')
+            ->select('COUNT(a.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+
     public function countArticlesByAuthorQueryBuilder(): QueryBuilder
     {
         $queryBuilder = $this->createQueryBuilder('a');
@@ -25,7 +35,7 @@ class AuthorRepository extends ServiceEntityRepository
             ->select('a AS author, COUNT(art.id) AS article_count')
             ->leftJoin('a.articles', 'art')
             ->groupBy('a.id')
-            ->orderBy('article_count', 'DESC')
+            ->orderBy('article_count', Order::Descending->value)
         ;
 
         return $queryBuilder;
@@ -52,7 +62,4 @@ class AuthorRepository extends ServiceEntityRepository
 
         return $queryBuilder->getQuery()->getOneOrNullResult();
     }
-
-    // public function findTopAuthorLastMonth(): ?array
-
 }
