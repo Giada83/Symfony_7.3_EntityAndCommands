@@ -53,7 +53,7 @@ final class StatisticsApiController extends AbstractController
         return new JsonResponse($chartData);
     }
 
-    #[Route('/global', name: 'api_statistics_global', methods: ['GET'])]
+    #[Route('/global', name: 'global', methods: ['GET'])]
     public function getGlobalCounts(): JsonResponse
     {
         $globalCounts = $this->statisticsGenerator->getCounts();

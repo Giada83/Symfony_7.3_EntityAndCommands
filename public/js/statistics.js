@@ -4,7 +4,13 @@ document.addEventListener("DOMContentLoaded", function () {
     const winnerInfoDiv = document.querySelector(".winner-info");
     if (winnerInfoDiv) {
         const topAuthorElement = document.getElementById("top-author");
+        const totalArticlesElement = document.getElementById(
+            "total-articles-card"
+        );
+        const totalAuthorsCard = document.getElementById("total-authors-card");
+
         const apiUrl = winnerInfoDiv.dataset.url; //api_statistics_top-author
+        const statisticsUrl = winnerInfoDiv.dataset.urlGlobal;
 
         if (topAuthorElement && apiUrl) {
             fetch(apiUrl)
@@ -25,6 +31,24 @@ document.addEventListener("DOMContentLoaded", function () {
                     topAuthorElement.textContent =
                         "Errore nel caricamento dei dati";
                     topAuthorElement.classList.remove("loading");
+                });
+        }
+
+        if (totalArticlesElement && totalAuthorsCard && statisticsUrl) {
+            fetch(statisticsUrl)
+                .then((response) => {
+                    console.log("Response status:", response.status);
+                    return response.json();
+                })
+                .then((data) => {
+                    console.log("Data ricevuti:", data);
+                    totalArticlesElement.textContent = data.articles ?? "--";
+                    totalAuthorsCard.textContent = data.authors ?? "--";
+                })
+                .catch((error) => {
+                    console.error("Errore fetch:", error);
+                    totalArticlesElement.textContent = "--";
+                    totalAuthorsCard.textContent = "--";
                 });
         }
     }

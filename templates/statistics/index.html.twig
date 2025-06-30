@@ -18,7 +18,7 @@
 		.table-section {
 			background-color: #fafbfc !important;
 			border-radius: 8px !important;
-			padding: 1.5rem !important;
+			padding: 0.5rem !important;
 			border: 1px solid #e2e8f0 !important;
 		}
 
@@ -55,18 +55,18 @@
 
 {% block body %}
 	<div class="example-wrapper">
-		<div class="winner-info" data-url="{{ path('api_statistics_top-author') }}">
+		<div class="winner-info" data-url="{{ path('api_statistics_top-author') }}" data-url-global="{{ path('api_statistics_global') }}">
 			<h1>STATISTICHE</h1>
 
 			{# Sezione statistiche rapide - stile cards superiori #}
 			<div class="stats-summary">
 				<div class="stat-card">
 					<span class="stat-number" id="total-articles-card">--</span>
-					<span class="stat-label">Articoli</span>
+					<span class="stat-label">TOT Articoli</span>
 				</div>
 				<div class="stat-card">
-					<span class="stat-number" id="total-authors">--</span>
-					<span class="stat-label">Autori</span>
+					<span class="stat-number" id="total-authors-card">--</span>
+					<span class="stat-label">TOT Autori</span>
 				</div>
 				<div class="stat-card">
 					<span class="stat-number" id="lore-ipsum-1">--</span>
@@ -86,17 +86,16 @@
 					<table class="statistics-table">
 						<thead>
 							<tr>
-								<th>Metrica</th>
-								<th>Valore</th>
+								<th colspan="2">Classifica Autori 🏆</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr>
-								<td>Autore che ha pubblicato di più</td>
+								<td>Primo Posto</td>
 								<td id="top-author" class="loading">Caricamento...</td>
 							</tr>
 							<tr>
-								<td>Totale articoli pubblicati</td>
+								<td>Ultimo Posto</td>
 								<td id="total-articles-table">--</td>
 							</tr>
 						</tbody>

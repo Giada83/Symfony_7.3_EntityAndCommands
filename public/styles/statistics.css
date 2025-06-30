@@ -8,6 +8,11 @@ body {
     line-height: 1.6;
 }
 
+.author-name {
+    font-weight: 600;
+    color: #33806e;
+}
+
 .example-wrapper {
     margin: 2rem auto;
     max-width: 900px;
@@ -75,7 +80,9 @@ body {
 
 .statistics-table th,
 .statistics-table td {
-    padding: 1.25rem 2rem;
+    /* padding: 1.25rem 2rem; */
+    padding-top: 1rem;
+    padding-bottom: 1rem;
     text-align: left;
     border-bottom: 1px solid #e2e8f0;
     font-size: 0.95rem;
